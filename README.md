@@ -229,7 +229,7 @@ public class TabViewModel
 
 **Output**
 
-![TabViewItemsSource.gif](https://support.syncfusion.com/kb/agent/attachment/article/18738/inline?token=eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0NTE0Iiwib3JnaWQiOiIzIiwiaXNzIjoic3VwcG9ydC5zeW5jZnVzaW9uLmNvbSJ9.QmyNTiwaVaoxcQlQK4vwaXG7FyceJF5ZBuicrry2ghY)
+![TabView_Template.gif](https://support.syncfusion.com/kb/agent/attachment/article/18738/inline?token=eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1NDQ4Iiwib3JnaWQiOiIzIiwiaXNzIjoic3VwcG9ydC5zeW5jZnVzaW9uLmNvbSJ9.igJJrGUkkq-zMxGuH3swZPNEi2jcvX7Auwh1g_h75_U)
 
 **Requirements to run the demo**
  

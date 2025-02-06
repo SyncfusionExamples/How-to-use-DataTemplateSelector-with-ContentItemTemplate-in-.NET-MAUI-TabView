@@ -2,20 +2,20 @@ This article provides a comprehensive guide on utilizing a `DataTemplateSelector
 
 By following the steps below, you can create a flexible tab view that supports varying content for each tab based on its associated data model.
 
-**Step 1:** Create a CustomSfTabView
+**Step 1:** Create a CustomTabView
 
 - Extend the TabView control to add a `ContentItemTemplateSelector` property.
 - Handle the [SelectionChanged](https://help.syncfusion.com/cr/maui/Syncfusion.Maui.TabView.SfTabView.html?tabs=tabid-1#Syncfusion_Maui_TabView_SfTabView_SelectionChanged) and `Loaded` events to dynamically set the content template.
 
 ```
-public class CustomSfTabView : SfTabView
+public class CustomTabView : SfTabView
 {
     // Dependency property for ItemTemplateSelector
     public static readonly BindableProperty ContentItemTemplateSelectorProperty =
         BindableProperty.Create(
             nameof(ContentItemTemplateSelector),
             typeof(DataTemplateSelector),
-            typeof(CustomSfTabView),
+            typeof(CustomTabView),
             null,
             propertyChanged: OnContentItemTemplateSelectorChanged);
 
@@ -29,7 +29,7 @@ public class CustomSfTabView : SfTabView
     // Handle changes to the template selector
     private static void OnContentItemTemplateSelectorChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        var tabView = bindable as CustomSfTabView;
+        var tabView = bindable as CustomTabView;
         if (tabView != null)
         {
             tabView.SetInitialTemplate();
@@ -37,7 +37,7 @@ public class CustomSfTabView : SfTabView
     }
 
     // Constructor
-    public CustomSfTabView()
+    public CustomTabView()
     {
         // Wire up selection changed event
         SelectionChanged += OnSelectionChanged;
@@ -77,9 +77,6 @@ public class CustomSfTabView : SfTabView
 
                 // Directly set the ContentItemTemplate
                 ContentItemTemplate = selectedTemplate;
-
-                // Optional: Log for debugging
-                System.Diagnostics.Debug.WriteLine($"Initial template set for item type: {firstItem?.GetType()}");
             }
         }
     }
@@ -114,7 +111,7 @@ public class TabItemTemplateSelector : DataTemplateSelector
             TextTabItem => TextTemplate,
             ImageTabItem => ImageTemplate,
             ComplexTabItem => ComplexTemplate,
-            _ => null
+            _ => TextTemplate
         };
     }
 }
@@ -143,30 +140,30 @@ public class TextTabItem:BaseTabItem
 - Create a view model to provide the items for the tabs and bind it to your view.
 
 ```
-public class TabViewViewModel 
+public class TabViewModel 
 {
     public List<BaseTabItem> TabItems { get; set; }
 
-    public TabViewViewModel()
+    public TabViewModel()
     {
         TabItems = new List<BaseTabItem>
         {
             new TextTabItem
             {
-                Title = "Text Tab",
-                Content = "This is a text tab content"
+                Title = "Employee",
+                Content = "Alex"
             },
             new ImageTabItem
             {
-                Title = "Image Tab",
-                ImageSource = "dotnet_bot.png"
+                Title = "Profile Picture",
+                ImageSource = "user.png"
             },
             new ComplexTabItem
             {
-                Title = "Complex Tab",
+                Title = "Description",
                 DetailedContent = new {
-                    Name = "Complex Content",
-                    Description = "Detailed information"
+                    Text = "Employee Details: ",
+                    Description = "Alex is a software developer ..."
                 }
             }
         };
@@ -178,7 +175,7 @@ public class TabViewViewModel
 
 - Define templates for each data model type in the ResourceDictionary.
 - Assign the TabItemTemplateSelector and templates in XAML.
-- Bind the CustomSfTabView to the ItemsSource and set the ContentItemTemplateSelector.
+- Bind the CustomTabView to the ItemsSource and set the ContentItemTemplateSelector.
 
 ```
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -188,7 +185,7 @@ public class TabViewViewModel
              xmlns:tabView="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView">
     
     <ContentPage.BindingContext>
-        <local:TabViewViewModel/>
+        <local:TabViewModel/>
     </ContentPage.BindingContext>
     
     <ContentPage.Resources>
@@ -209,7 +206,7 @@ public class TabViewViewModel
                 <local:TabItemTemplateSelector.ComplexTemplate>
                     <DataTemplate>
                         <StackLayout >
-                            <Label Text="{Binding DetailedContent.Name}" />
+                            <Label Text="{Binding DetailedContent.Text}" />
                             <Label Text="{Binding DetailedContent.Description}" />
                         </StackLayout>
                     </DataTemplate>
@@ -223,16 +220,16 @@ public class TabViewViewModel
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <local:CustomSfTabView ItemsSource="{Binding TabItems}"
+    <local:CustomTabView ItemsSource="{Binding TabItems}"
         HeaderItemTemplate="{StaticResource headerItemTemplate}"
         ContentItemTemplateSelector="{StaticResource TabItemSelector}">
-    </local:CustomSfTabView>
+    </local:CustomTabView>
 </ContentPage>
 ```
 
 **Output**
 
-![TabViewItemsSource.gif](https://support.syncfusion.com/kb/agent/attachment/article/18738/inline?token=eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0NTE0Iiwib3JnaWQiOiIzIiwiaXNzIjoic3VwcG9ydC5zeW5jZnVzaW9uLmNvbSJ9.QmyNTiwaVaoxcQlQK4vwaXG7FyceJF5ZBuicrry2ghY)
+![TabView_Template.gif](https://support.syncfusion.com/kb/agent/attachment/article/18738/inline?token=eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1NDQ4Iiwib3JnaWQiOiIzIiwiaXNzIjoic3VwcG9ydC5zeW5jZnVzaW9uLmNvbSJ9.igJJrGUkkq-zMxGuH3swZPNEi2jcvX7Auwh1g_h75_U)
 
 **Requirements to run the demo**
  

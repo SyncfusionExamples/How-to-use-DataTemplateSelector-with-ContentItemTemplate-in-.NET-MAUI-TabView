@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TabViewSample.MainPage"
+             xmlns:local="clr-namespace:TabViewSample"
+             xmlns:tabView="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView">
+    
+    <ContentPage.BindingContext>
+        <local:TabViewModel/>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:TabItemTemplateSelector x:Key="TabItemSelector">
+                <local:TabItemTemplateSelector.TextTemplate>
+                    <DataTemplate>
+                        <Label Text="{Binding Content}" VerticalOptions="Center" HorizontalOptions="Center" 
+                               FontAttributes="Bold" FontSize="20" HorizontalTextAlignment="Center"/>
+                    </DataTemplate>
+                </local:TabItemTemplateSelector.TextTemplate>
+
+                <local:TabItemTemplateSelector.ImageTemplate>
+                    <DataTemplate>
+                        <Image Source="{Binding ImageSource}" WidthRequest="100" HeightRequest="100" VerticalOptions="Center" HorizontalOptions="Center" Aspect="AspectFit"/>
+                    </DataTemplate>
+                </local:TabItemTemplateSelector.ImageTemplate>
+
+                <local:TabItemTemplateSelector.ComplexTemplate>
+                    <DataTemplate>
+                        <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
+                            <Label Text="{Binding DetailedContent.Text}" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                            <Label Text="{Binding DetailedContent.Description}" HorizontalTextAlignment="Start"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </local:TabItemTemplateSelector.ComplexTemplate>
+            </local:TabItemTemplateSelector>
+            <DataTemplate x:Key="headerItemTemplate">
+                <StackLayout Margin="10">
+                    <Label Text="{Binding Title}" VerticalTextAlignment="Center"/>
+                </StackLayout>
+            </DataTemplate>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <local:CustomTabView TabBarBackground="LightBlue" IndicatorPlacement="Fill"
+        ItemsSource="{Binding TabItems}"
+        HeaderItemTemplate="{StaticResource headerItemTemplate}"
+        ContentItemTemplateSelector="{StaticResource TabItemSelector}">
+    </local:CustomTabView>
+
+</ContentPage>
